@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Property Cost Calculator</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 40px;
+        }
+        input {
+            margin: 5px 0;
+            padding: 5px;
+            width: 220px;
+        }
+        button {
+            padding: 8px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Property Cost Calculator</h2>
+
+<label>Area:</label><br>
+<input type="number" id="area"><br>
+
+<label>Price per Unit:</label><br>
+<input type="number" id="price"><br>
+
+<label>Legal Charges:</label><br>
+<input type="number" id="legal"><br>
+
+<label>Development Charges:</label><br>
+<input type="number" id="development"><br>
+
+<label>Registration Charges:</label><br>
+<input type="number" id="registration"><br>
+
+<label>Other Charges:</label><br>
+<input type="number" id="other"><br>
+
+<button onclick="calculate()">Calculate</button>
+
+<div class="result">
+    <p id="agreement"></p>
+    <p id="stampDuty"></p>
+    <p id="gst"></p>
+    <p id="total"></p>
+</div>
+
+<script>
+function calculate() {
+    let area = Number(document.getElementById("area").value);
+    let price = Number(document.getElementById("price").value);
+    let legal = Number(document.getElementById("legal").value);
+    let development = Number(document.getElementById("development").value);
+	let registration = Number(document.getElementById("registration").value);
+    let other = Number(document.getElementById("other").value);
+
+    let agreementValue = area * price;
+    let stampDuty = agreementValue * 0.07;
+
+    let gstRate = agreementValue > 4500000 ? 0.05 : 0.01;
+    let gst = agreementValue * gstRate;
+
+    let totalCost = agreementValue + stampDuty + legal + gst + registration + development + other;
+
+    document.getElementById("agreement").innerText =
+        "Agreement Value: ₹" + agreementValue;
+
+    document.getElementById("stampDuty").innerText =
+        "Stamp Duty (7%): ₹" + stampDuty;
+
+    document.getElementById("gst").innerText =
+        "GST (" + (gstRate * 100) + "%): ₹" + gst;
+
+    document.getElementById("total").innerText =
+        "Total Cost: ₹" + totalCost;
+}
+</script>
+
+</body>
+</html>
