@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Property Cost Calculator</title>
 
 <style>
@@ -9,7 +10,7 @@
         box-sizing: border-box;
         font-family: 'Segoe UI', Tahoma, sans-serif;
     }
-	
+
     body {
         margin: 0;
         min-height: 100vh;
@@ -21,34 +22,32 @@
     }
 
     .calculator {
-        background: #ffffff;
-        width: 100%;
-        max-width: 420px;
-        padding: 25px;
+        width: 380px;
+        max-width: 100%;
+        background: #fff;
+        padding: 24px;
         border-radius: 16px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        animation: fadeIn 0.6s ease-in-out;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
     }
 
     h2 {
         text-align: center;
-        margin-bottom: 20px;
-        color: #4a4a4a;
+        margin-bottom: 18px;
+        color: #333;
     }
 
     label {
-        font-weight: 600;
         font-size: 14px;
+        font-weight: 600;
         color: #555;
     }
 
     input {
         width: 100%;
-        padding: 10px 12px;
+        padding: 10px;
         margin: 6px 0 14px;
         border-radius: 8px;
         border: 1px solid #ccc;
-        transition: 0.3s;
         font-size: 14px;
     }
 
@@ -62,50 +61,37 @@
         width: 100%;
         padding: 12px;
         background: linear-gradient(135deg, #667eea, #764ba2);
-        border: none;
         color: white;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: bold;
+        border: none;
         border-radius: 10px;
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
     }
 
     button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        opacity: 0.95;
     }
 
     .results {
-        margin-top: 20px;
+        margin-top: 18px;
     }
 
     .card {
         background: #f4f6ff;
-        padding: 12px;
-        border-radius: 10px;
-        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 8px;
         font-weight: 600;
-        color: #333;
-        border-left: 5px solid #667eea;
-        animation: slideUp 0.4s ease-in-out;
+        font-size: 14px;
+        border-left: 4px solid #667eea;
     }
 
     .total {
         background: #e8fff3;
         border-left-color: #2ecc71;
         color: #1e8449;
-        font-size: 16px;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+        font-size: 15px;
     }
 </style>
 </head>
@@ -116,22 +102,19 @@
     <h2>🏠 Property Cost Calculator</h2>
 
     <label>Area</label>
-    <input type="number" id="area" placeholder="Enter area">
+    <input type="number" id="area">
 
     <label>Price per Unit</label>
-    <input type="number" id="price" placeholder="Enter price">
+    <input type="number" id="price">
 
     <label>Legal Charges</label>
-    <input type="number" id="legal" placeholder="Enter legal charges">
+    <input type="number" id="legal">
 
     <label>Development Charges</label>
-    <input type="number" id="development" placeholder="Enter development charges">
-	
-	<label>Registration Charges:</label><br>
-	<input type="number" id="registration" placeholder="Enter Registration Charges"><br>
+    <input type="number" id="development">
 
     <label>Other Charges</label>
-    <input type="number" id="other" placeholder="Enter other charges">
+    <input type="number" id="other">
 
     <button onclick="calculate()">Calculate</button>
 
@@ -166,7 +149,6 @@ function calculate() {
     gst.innerText = `GST (${gstRate * 100}%): ₹${gst.toLocaleString()}`;
     total.innerText = `Total Cost: ₹${totalCost.toLocaleString()}`;
 }
-
 </script>
 
 </body>
