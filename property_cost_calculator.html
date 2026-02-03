@@ -1,58 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Property Cost Calculator</title>
-    <style>
-        body {
-            font-family: Arial;
-            margin: 40px;
-        }
-        input {
-            margin: 5px 0;
-            padding: 5px;
-            width: 220px;
-        }
-        button {
-            padding: 8px 15px;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-        .result {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Property Cost Calculator</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+	
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .calculator {
+        background: #ffffff;
+        width: 100%;
+        max-width: 420px;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        animation: fadeIn 0.6s ease-in-out;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #4a4a4a;
+    }
+
+    label {
+        font-weight: 600;
+        font-size: 14px;
+        color: #555;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px 12px;
+        margin: 6px 0 14px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        transition: 0.3s;
+        font-size: 14px;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 6px rgba(102,126,234,0.4);
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .results {
+        margin-top: 20px;
+    }
+
+    .card {
+        background: #f4f6ff;
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #333;
+        border-left: 5px solid #667eea;
+        animation: slideUp 0.4s ease-in-out;
+    }
+
+    .total {
+        background: #e8fff3;
+        border-left-color: #2ecc71;
+        color: #1e8449;
+        font-size: 16px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 </head>
 
 <body>
 
-<h2>Property Cost Calculator</h2>
+<div class="calculator">
+    <h2>🏠 Property Cost Calculator</h2>
 
-<label>Area:</label><br>
-<input type="number" id="area"><br>
+    <label>Area</label>
+    <input type="number" id="area" placeholder="Enter area">
 
-<label>Price per Unit:</label><br>
-<input type="number" id="price"><br>
+    <label>Price per Unit</label>
+    <input type="number" id="price" placeholder="Enter price">
 
-<label>Legal Charges:</label><br>
-<input type="number" id="legal"><br>
+    <label>Legal Charges</label>
+    <input type="number" id="legal" placeholder="Enter legal charges">
 
-<label>Development Charges:</label><br>
-<input type="number" id="development"><br>
+    <label>Development Charges</label>
+    <input type="number" id="development" placeholder="Enter development charges">
+	
+	<label>Registration Charges:</label><br>
+	<input type="number" id="registration" placeholder="Enter Registration Charges"><br>
 
-<label>Registration Charges:</label><br>
-<input type="number" id="registration"><br>
+    <label>Other Charges</label>
+    <input type="number" id="other" placeholder="Enter other charges">
 
-<label>Other Charges:</label><br>
-<input type="number" id="other"><br>
+    <button onclick="calculate()">Calculate</button>
 
-<button onclick="calculate()">Calculate</button>
-
-<div class="result">
-    <p id="agreement"></p>
-    <p id="stampDuty"></p>
-    <p id="gst"></p>
-    <p id="total"></p>
+    <div class="results">
+        <div class="card" id="agreement"></div>
+        <div class="card" id="stamp"></div>
+        <div class="card" id="gst"></div>
+        <div class="card total" id="total"></div>
+    </div>
 </div>
 
 <script>
@@ -63,27 +151,22 @@ function calculate() {
     let development = Number(document.getElementById("development").value);
 	let registration = Number(document.getElementById("registration").value);
     let other = Number(document.getElementById("other").value);
-
+	
     let agreementValue = area * price;
     let stampDuty = agreementValue * 0.07;
-
+	
     let gstRate = agreementValue > 4500000 ? 0.05 : 0.01;
-    let gst = agreementValue * gstRate;
-
+    
+	let gst = agreementValue * gstRate;
+	
     let totalCost = agreementValue + stampDuty + legal + gst + registration + development + other;
 
-    document.getElementById("agreement").innerText =
-        "Agreement Value: ₹" + agreementValue;
-
-    document.getElementById("stampDuty").innerText =
-        "Stamp Duty (7%): ₹" + stampDuty;
-
-    document.getElementById("gst").innerText =
-        "GST (" + (gstRate * 100) + "%): ₹" + gst;
-
-    document.getElementById("total").innerText =
-        "Total Cost: ₹" + totalCost;
+    agreement.innerText = `Agreement Value: ₹${agreementValue.toLocaleString()}`;
+    stamp.innerText = `Stamp Duty (7%): ₹${stampDuty.toLocaleString()}`;
+    gst.innerText = `GST (${gstRate * 100}%): ₹${gst.toLocaleString()}`;
+    total.innerText = `Total Cost: ₹${totalCost.toLocaleString()}`;
 }
+
 </script>
 
 </body>
