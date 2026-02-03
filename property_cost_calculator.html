@@ -124,7 +124,7 @@
     <div class="results">
         <div class="card" id="agreement"></div>
         <div class="card" id="stamp"></div>
-        <div class="card" id="gst"></div>
+        <div class="card" id="gst_id"></div>
         <div class="card total" id="total"></div>
     </div>
 </div>
@@ -149,7 +149,7 @@ function calculate() {
 
     agreement.innerText = `Agreement Value: ₹${agreementValue.toLocaleString()}`;
     stamp.innerText = `Stamp Duty (7%): ₹${stampDuty.toLocaleString()}`;
-    gst.innerText = `GST (${gstRate * 100}%): ₹${gst.toLocaleString()}`;
+    gst_id.innerText = `GST (${gstRate * 100}%): ₹${gst.toLocaleString()}`;
     total.innerText = `Total Cost: ₹${totalCost.toLocaleString()}`;
 }
 </script>
