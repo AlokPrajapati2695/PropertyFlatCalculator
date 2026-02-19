@@ -3,154 +3,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Property Cost Calculator</title>
+<title>Property Calculator</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        font-family: 'Segoe UI', Tahoma, sans-serif;
-    }
+*{
+    box-sizing:border-box;
+    font-family:"Segoe UI",Tahoma,sans-serif;
+}
 
-    body {
-        margin: 0;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
+body{
+    margin:0;
+    height:100vh;
+    background:linear-gradient(135deg,#283c86,#45a247);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
-    .calculator {
-        width: 380px;
-        max-width: 100%;
-        background: #fff;
-        padding: 24px;
-        border-radius: 16px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-    }
+.container{
+    width:900px;
+    max-width:95%;
+    background:#fff;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.3);
+}
 
-    h2 {
-        text-align: center;
-        margin-bottom: 18px;
-        color: #333;
-    }
+h2{
+    text-align:center;
+    margin-bottom:14px;
+    color:#283c86;
+}
 
-    label {
-        font-size: 14px;
-        font-weight: 600;
-        color: #555;
-    }
+/* INPUT GRID */
+.form-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px 30px;
+}
 
-    input {
-        width: 100%;
-        padding: 10px;
-        margin: 6px 0 14px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 14px;
-    }
+.field{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
 
-    input:focus {
-        outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 6px rgba(102,126,234,0.4);
-    }
+.field label{
+    font-size:13px;
+    font-weight:600;
+    color:#444;
+    width:55%;
+}
 
-    button {
-        width: 100%;
-        padding: 12px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        font-size: 15px;
-        font-weight: bold;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-    }
+.field input{
+    width:45%;
+    padding:6px 8px;
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
 
-    button:hover {
-        opacity: 0.95;
-    }
+.field input:focus{
+    outline:none;
+    border-color:#45a247;
+}
 
-    .results {
-        margin-top: 18px;
-    }
+/* BUTTON */
+button{
+    margin:14px auto;
+    display:block;
+    padding:10px 30px;
+    background:linear-gradient(135deg,#283c86,#45a247);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
 
-    .card {
-        background: #f4f6ff;
-        padding: 10px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        font-weight: 600;
-        font-size: 14px;
-        border-left: 4px solid #667eea;
-    }
+/* RESULTS */
+.results{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-top:10px;
+}
 
-    .total {
-        background: #e8fff3;
-        border-left-color: #2ecc71;
-        color: #1e8449;
-        font-size: 15px;
-    }
+.result-box{
+    background:#f4f6ff;
+    padding:12px;
+    border-radius:10px;
+    border-left:5px solid #283c86;
+}
+
+.result-box h3{
+    margin:0 0 8px;
+    font-size:15px;
+    color:#283c86;
+}
+
+.result{
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+/* PROFIT */
+.profit{
+    margin-top:12px;
+    padding:12px;
+    border-radius:10px;
+    background:#fff3cd;
+    border-left:5px solid #f39c12;
+    font-weight:700;
+    font-size:15px;
+    text-align:center;
+}
 </style>
 </head>
 
 <body>
 
-<div class="calculator">
-    <h2>🏠 Property Cost Calculator</h2>
+<div class="container">
+<h2>🏠 Property Cost Calculator</h2>
 
-    <label>Area</label>
-    <input type="number" id="area">
+<div class="form-grid">
+    <div class="field"><label>Area</label><input type="number" id="area"></div>
+    <div class="field"><label>Price Per Unit</label><input type="number" id="price"></div>
 
-    <label>Price per Unit</label>
-    <input type="number" id="price">
+    <div class="field"><label>Legal Charges</label><input type="number" id="legal"></div>
+    <div class="field"><label>Registration Charges</label><input type="number" id="registration"></div>
 
-    <label>Legal Charges</label>
-    <input type="number" id="legal">
+    <div class="field"><label>Development Charges</label><input type="number" id="development"></div>
+    <div class="field"><label>Other Charges</label><input type="number" id="other"></div>
 
-	<label>Registration Charges:</label><br>
-	<input type="number" id="registration"><br>
-	
-    <label>Development Charges</label>
-    <input type="number" id="development">
+    <div class="field"><label>Cash</label><input type="number" id="cashAmount"></div>
+</div>
 
-    <label>Other Charges</label>
-    <input type="number" id="other">
+<button onclick="calculate()">CALCULATE</button>
 
-    <button onclick="calculate()">Calculate</button>
+<div class="results">
+    <div class="result-box">
+        <h3>Without Cash</h3>
+        <div class="result" id="wAgreement"></div>
+        <div class="result" id="wStamp"></div>
+        <div class="result" id="wGst"></div>
+        <div class="result" id="wlegal"></div>
+        <div class="result" id="wregistration"></div>
+        <div class="result" id="wdevelopment"></div>
+        <div class="result" id="wother"></div>
+        <div class="result" id="wTotal"></div>
+    </div>
 
-    <div class="results">
-        <div class="card" id="agreement"></div>
-        <div class="card" id="stamp"></div>
-        <div class="card" id="gst_id"></div>
-        <div class="card total" id="total"></div>
+    <div class="result-box">
+        <h3>With Cash</h3>
+        <div class="result" id="cAgreement"></div>
+        <div class="result" id="cStamp"></div>
+        <div class="result" id="cGst"></div>
+		<div class="result" id="clegal"></div>
+        <div class="result" id="cregistration"></div>
+        <div class="result" id="cdevelopment"></div>
+        <div class="result" id="cother"></div>
+        <div class="result" id="cTotal"></div>
     </div>
 </div>
 
+<div class="profit" id="profitExCash"></div>
+<div class="profit" id="profitCash"></div>
+
+</div>
+
 <script>
-function calculate() {
-    let area = Number(document.getElementById("area").value);
+function calculate(){
+	let area = Number(document.getElementById("area").value);
     let price = Number(document.getElementById("price").value);
     let legal = Number(document.getElementById("legal").value);
     let development = Number(document.getElementById("development").value);
 	let registration = Number(document.getElementById("registration").value);
+	let cashAmount = Number(document.getElementById("cashAmount").value);
     let other = Number(document.getElementById("other").value);
 	
-    let agreementValue = area * price;
-    let stampDuty = agreementValue * 0.07;
-	
-    let gstRate = agreementValue > 4500000 ? 0.05 : 0.01;
-    
-	let gst = agreementValue * gstRate;
-	
-    let totalCost = agreementValue + stampDuty + legal + gst + registration + development + other;
+    //let area1 = Number(area.value);
+    //let price1 = Number(price.value);
+    //let cash1 = Number(cashAmount.value);
 
-    agreement.innerText = `Agreement Value: ₹${agreementValue.toLocaleString()}`;
-    stamp.innerText = `Stamp Duty (7%): ₹${stampDuty.toLocaleString()}`;
-    gst_id.innerText = `GST (${gstRate * 100}%): ₹${gst.toLocaleString()}`;
-    total.innerText = `Total Cost: ₹${totalCost.toLocaleString()}`;
+    // Without Cash
+    let wAgreement = area * price;
+    let wStamp = wAgreement * 0.07;
+	let wgstRate = wAgreement > 4500000 ? 0.05 : 0.01; 
+	let wgst = wAgreement * wgstRate;
+    let wTotal = wAgreement + wStamp + wgst + legal + development + registration + other;
+	
+
+    // With Cash
+    let cAgreement = wAgreement - cashAmount;
+    let cStamp = cAgreement * 0.07;
+	let cgstRate = cAgreement > 4500000 ? 0.05 : 0.01; 
+	let cgst = cAgreement * cgstRate;
+    let cTotal = cAgreement + cStamp + cgst + legal+development + registration + other;
+
+    // Profit
+    let profitExcludeCash = wTotal - cTotal;
+	let profitWithCash = profitExcludeCash - cashAmount;
+
+    document.getElementById("wAgreement").innerText = `Agreement: ₹${wAgreement.toLocaleString()}`;
+    document.getElementById("wStamp").innerText = `Stamp Duty (7%): ₹${wStamp.toLocaleString()}`;
+    document.getElementById("wGst").innerText = `GST (${wgstRate * 100}%): ₹${wgst.toLocaleString()}`;
+	document.getElementById("wlegal").innerText = `Legal: ₹${legal.toLocaleString()}`;
+	document.getElementById("wregistration").innerText = `Registration: ₹${registration.toLocaleString()}`;
+	document.getElementById("wdevelopment").innerText = `Development: ₹${development.toLocaleString()}`;
+	document.getElementById("wother").innerText = `Other: ₹${other.toLocaleString()}`;	
+    document.getElementById("wTotal").innerText = `Total: ₹${wTotal.toLocaleString()}`;
+
+    document.getElementById("cAgreement").innerText = `Agreement: ₹${cAgreement.toLocaleString()}`;
+    document.getElementById("cStamp").innerText = `Stamp Duty (7%): ₹${cStamp.toLocaleString()}`;
+    document.getElementById("cGst").innerText = `GST (${cgstRate * 100}%): ₹${cgst.toLocaleString()}`;
+	document.getElementById("clegal").innerText = `Legal: ₹${legal.toLocaleString()}`;
+	document.getElementById("cregistration").innerText = `Registration: ₹${registration.toLocaleString()}`;
+	document.getElementById("cdevelopment").innerText = `Development: ₹${development.toLocaleString()}`;
+	document.getElementById("cother").innerText = `Other: ₹${other.toLocaleString()}`;
+    document.getElementById("cTotal").innerText = `Total: ₹${cTotal.toLocaleString()}`;
+
+    document.getElementById("profitExCash").innerText = `Profit Excluding Cash: ₹${profitExcludeCash.toLocaleString()}`;
+	document.getElementById("profitCash").innerText = `Profit With Cash: ₹${profitWithCash.toLocaleString()}`;
+		
+		
 }
 </script>
 
