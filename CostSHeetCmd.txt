@@ -1,0 +1,67 @@
+Create a Web Application for the property Cost sheet Calculation use pure Javascript and HTML
+
+Input should be as per below and show the default value as editable if use wants to edit he or she should edit based on there need-
+Area: 637
+Rate of per SqFt: 14800
+Floor Selected: 13
+Floor Charge: 21000
+Development Charges: 405000
+Parking Charge: 800000
+Applicable GST on Agreement: 5%
+Stumpt Duity charge at Agreement: 7%
+Registration Charges: 30000
+Adavance Maintenance: 63140
+Any Other Charge Wanted to add in Agrrement: 0
+
+We Need to provide the distribution of the amount and GST based on out of 100%
+Customer needs to provide the distribution as number. on the same window beside show then how much % done live count needs to be show this would gives the live calculation as 100% done also it should be helpful for them to understand how much count customer provided. if distribution less than 100% error should be "provide the 100% of distribution" if high Show error "distributionis greater than 100%" proceed only if distibution is 100%.
+
+for example Customer shared Input as 10, 20, 15, 5, 5,5,5,5, 5, 5, 5, 10, 5 this is 100% also suggest this distribution also do you wanted to use this? if yes calculate based on this distribution else allow them to share there distribution 
+
+Now start the Calculation and Show in strutured way as outcome of those:
+
+Task 1: Create a Table and Show Agreement Value:
+Flat Value: from user Input multiply Area*Rate of per SqFt
+Floor Cost: Calculate (floor Selected-1)*Floor Charges
+Development Charges: As per User input Development Charges
+Parking: As per user Input Parking Charge
+Other: As per user Input Any Other Charge Wanted to add in Agrrement
+Total Agreement Value: sum of above columns (Flat Value+Floor Cost+Development Charges+Parking+Other)
+Applicable GST on Agreement: Calculate Total Agreement Value* Applicable GST on Agreement
+Total: add Total Agreement Value and Applicable GST on Agreement
+
+
+Task 2: Based on Total Agreement Value and Applicable GST on Agreement show the distribution based on below Logic, this should be tabular formate and purpouse of this distribution is in each distribution how much amount customer needs to be paid.
+Logic:
+
+|	Installment Number	|	Distibution %	|	Amount	|	GST	|	Total Payble	|	Total Paid	|
+|	1	|	1st Distrbution Value from user input	|	Total Agreement Value *Distibution %	|	Applicable GST on Agreement*Distibution %	|	sum of Amount and GST	|	Same as total payble only for row 1	|
+|	2	|	2nd Distrbution Value from user input	|	Total Agreement Value *Distibution %	|	Applicable GST on Agreement*Distibution %	|	sum of Amount and GST	|	sum of row 1 total paid and row 2 total Payble	|
+|	3	|	3rd Distrbution Value from user input	|	Total Agreement Value *Distibution %	|	Applicable GST on Agreement*Distibution %	|	sum of Amount and GST	|	sum of row 2 total paid and row 3 total Payble	|
+
+Calculate and continue same for other distribution...
+
+
+Eample of tabular Distribution:
+|	Installment Number	|	Distibution %	|	Amount	|	GST	|	Total Payble	|	Total Paid	|
+|	1	|	10%	|	1088460	|	54423	|	1142883	|	1142883	|
+|	2	|	20%	|	2176920	|	108846	|	2285766	|	3428649	|
+|	3	|	15%	|	1632690	|	81635	|	1714325	|	5142974	|
+
+
+Task 3:
+Now generate the 3rd Table which is name as Additional cost
+Stump Duity: Stumpt Duity charge at Agreement*Total Agreement Value
+Registration Charge: same as user input from Registration Charges
+Total cost for Stump duity and registration: add above two rows (Stump Duity and Registration Charge) 
+
+Task 4:
+generate another one more Last table with would be title as expense till possession:
+Total Agreement with GST: sum of Total Agreement Value and Applicable GST on Agreement
+Total Stump+Reg: sum of Total Agreement with GST and Total cost for Stump duity and registration
+Adv Maintenance: same as user input Adavance Maintenance
+Total Expense: calculate above 3 rows (Total Agreement with GST & Total Stump+Reg & Adv Maintenance).
+
+
+Task 5:
+Add a functionality at the end of the result/once result has been generated for download or print in the report. once user click this button it show a pop up and ask what is name of your Project and user should enter the name of project. while report generation it should show on very top name of project and below only Agreement Value, Installment Distribution, Additional Cost, Expense Till Possession this information only should show as downloadable or print file.
