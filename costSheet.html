@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Cost Sheet Calculator</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:20px;
+    background:#f5f5f5;
+}
+
+.container{
+    max-width:1400px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+h2{
+    margin-top:0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-bottom:5px;
+}
+
+input{
+    width:100%;
+    padding:8px;
+    box-sizing:border-box;
+}
+
+button{
+    padding:12px 20px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th,
+table td{
+    border:1px solid #ddd;
+    padding:8px;
+    text-align:right;
+}
+
+table th{
+    background:#007bff;
+    color:white;
+}
+
+table td:first-child,
+table th:first-child{
+    text-align:center;
+}
+
+.summary{
+    font-weight:bold;
+    background:#e8f4ff;
+}
+
+.error{
+    color:red;
+    font-weight:bold;
+}
+
+.success{
+    color:green;
+    font-weight:bold;
+}
+
+.totalBox{
+    font-size:18px;
+    font-weight:bold;
+    margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="card">
+<h2>Property Cost Sheet Calculator</h2>
+
+<div class="grid">
+
+<div>
+<label>Area (SqFt)</label>
+<input type="number" id="area" value="637">
+</div>
+
+<div>
+<label>Rate per SqFt</label>
+<input type="number" id="rate" value="14800">
+</div>
+
+<div>
+<label>Floor Selected</label>
+<input type="number" id="floorSelected" value="13">
+</div>
+
+<div>
+<label>Floor Charge</label>
+<input type="number" id="floorCharge" value="21000">
+</div>
+
+<div>
+<label>Development Charges</label>
+<input type="number" id="development" value="405000">
+</div>
+
+<div>
+<label>Parking Charge</label>
+<input type="number" id="parking" value="800000">
+</div>
+
+<div>
+<label>GST (%)</label>
+<input type="number" id="gst" value="5">
+</div>
+
+<div>
+<label>Stamp Duty (%)</label>
+<input type="number" id="stampDuty" value="7">
+</div>
+
+<div>
+<label>Registration Charges</label>
+<input type="number" id="registration" value="30000">
+</div>
+
+<div>
+<label>Advance Maintenance</label>
+<input type="number" id="maintenance" value="63140">
+</div>
+
+<div>
+<label>Other Charges</label>
+<input type="number" id="other" value="0">
+</div>
+
+</div>
+
+<br>
+
+<h3>Distribution (%)</h3>
+
+<p>
+Suggested Distribution:
+<b>10,20,15,5,5,5,5,5,5,5,5,10,5</b>
+</p>
+
+<textarea id="distribution"
+style="width:100%;height:80px;"
+placeholder="Enter comma separated values">
+10,20,15,5,5,5,5,5,5,5,5,10,5
+</textarea>
+
+<div class="totalBox">
+Total Distribution :
+<span id="distributionTotal">100</span>%
+</div>
+
+<div id="distributionMessage"></div>
+
+<br>
+
+<button onclick="calculate()">Calculate</button>
+
+</div>
+
+<div id="results"></div>
+
+</div>
+
+<script>
+
+function formatINR(num){
+    return Number(num).toLocaleString('en-IN',{
+        maximumFractionDigits:0
+    });
+}
+
+function calculateDistributionTotal(){
+
+    const values = document
+        .getElementById("distribution")
+        .value
+        .split(",")
+        .map(x => Number(x.trim()))
+        .filter(x => !isNaN(x));
+
+    const total = values.reduce((a,b)=>a+b,0);
+
+    document.getElementById("distributionTotal").innerText = total;
+
+    const msg = document.getElementById("distributionMessage");
+
+    if(total < 100){
+        msg.innerHTML =
+        '<span class="error">Provide the 100% of distribution</span>';
+    }
+    else if(total > 100){
+        msg.innerHTML =
+        '<span class="error">Distribution is greater than 100%</span>';
+    }
+    else{
+        msg.innerHTML =
+        '<span class="success">Distribution is exactly 100%</span>';
+    }
+}
+
+document
+.getElementById("distribution")
+.addEventListener("input",calculateDistributionTotal);
+
+calculateDistributionTotal();
+
+function calculate(){
+
+    const dist = document
+    .getElementById("distribution")
+    .value
+    .split(",")
+    .map(x=>Number(x.trim()))
+    .filter(x=>!isNaN(x));
+
+    const totalDist =
+    dist.reduce((a,b)=>a+b,0);
+
+    if(totalDist !== 100){
+        alert("Distribution must be exactly 100%");
+        return;
+    }
+
+    const area =
+    Number(document.getElementById("area").value);
+
+    const rate =
+    Number(document.getElementById("rate").value);
+
+    const floorSelected =
+    Number(document.getElementById("floorSelected").value);
+
+    const floorCharge =
+    Number(document.getElementById("floorCharge").value);
+
+    const development =
+    Number(document.getElementById("development").value);
+
+    const parking =
+    Number(document.getElementById("parking").value);
+
+    const gstPercent =
+    Number(document.getElementById("gst").value);
+
+    const stampDutyPercent =
+    Number(document.getElementById("stampDuty").value);
+
+    const registration =
+    Number(document.getElementById("registration").value);
+
+    const maintenance =
+    Number(document.getElementById("maintenance").value);
+
+    const other =
+    Number(document.getElementById("other").value);
+
+    // TASK 1
+
+    const flatValue = area * rate;
+
+    const floorCost =
+    (floorSelected - 1) * floorCharge;
+
+    const totalAgreementValue =
+    flatValue +
+    floorCost +
+    development +
+    parking +
+    other;
+
+    const gstAmount =
+    totalAgreementValue *
+    gstPercent / 100;
+
+    const agreementTotal =
+    totalAgreementValue +
+    gstAmount;
+
+    let html = '';
+
+    html += `
+    <div class="card">
+    <h2>Agreement Value</h2>
+
+    <table>
+    <tr>
+    <th>Description</th>
+    <th>Amount (₹)</th>
+    </tr>
+
+    <tr>
+    <td>Flat Value</td>
+    <td>${formatINR(flatValue)}</td>
+    </tr>
+
+    <tr>
+    <td>Floor Cost</td>
+    <td>${formatINR(floorCost)}</td>
+    </tr>
+
+    <tr>
+    <td>Development Charges</td>
+    <td>${formatINR(development)}</td>
+    </tr>
+
+    <tr>
+    <td>Parking</td>
+    <td>${formatINR(parking)}</td>
+    </tr>
+
+    <tr>
+    <td>Other</td>
+    <td>${formatINR(other)}</td>
+    </tr>
+
+    <tr class="summary">
+    <td>Total Agreement Value</td>
+    <td>${formatINR(totalAgreementValue)}</td>
+    </tr>
+
+    <tr>
+    <td>Applicable GST</td>
+    <td>${formatINR(gstAmount)}</td>
+    </tr>
+
+    <tr class="summary">
+    <td>Total</td>
+    <td>${formatINR(agreementTotal)}</td>
+    </tr>
+
+    </table>
+    </div>
+    `;
+
+    // TASK 2
+
+    let cumulative = 0;
+
+    html += `
+    <div class="card">
+    <h2>Installment Distribution</h2>
+
+    <table>
+    <tr>
+    <th>Installment</th>
+    <th>Distribution %</th>
+    <th>Amount</th>
+    <th>GST</th>
+    <th>Total Payable</th>
+    <th>Total Paid</th>
+    </tr>
+    `;
+
+    dist.forEach((p,index)=>{
+
+        const amount =
+        totalAgreementValue * p / 100;
+
+        const gst =
+        gstAmount * p / 100;
+
+        const payable =
+        amount + gst;
+
+        cumulative += payable;
+
+        html += `
+        <tr>
+        <td>${index+1}</td>
+        <td>${p}%</td>
+        <td>${formatINR(amount)}</td>
+        <td>${formatINR(gst)}</td>
+        <td>${formatINR(payable)}</td>
+        <td>${formatINR(cumulative)}</td>
+        </tr>
+        `;
+    });
+
+    html += `
+    </table>
+    </div>
+    `;
+
+    // TASK 3
+
+    const stampDuty =
+    totalAgreementValue *
+    stampDutyPercent / 100;
+
+    const stampRegTotal =
+    stampDuty + registration;
+
+    html += `
+    <div class="card">
+    <h2>Additional Cost</h2>
+
+    <table>
+
+    <tr>
+    <th>Description</th>
+    <th>Amount</th>
+    </tr>
+
+    <tr>
+    <td>Stamp Duty</td>
+    <td>${formatINR(stampDuty)}</td>
+    </tr>
+
+    <tr>
+    <td>Registration Charges</td>
+    <td>${formatINR(registration)}</td>
+    </tr>
+
+    <tr class="summary">
+    <td>Total Stamp Duty + Registration</td>
+    <td>${formatINR(stampRegTotal)}</td>
+    </tr>
+
+    </table>
+    </div>
+    `;
+
+    // TASK 4
+
+    const totalExpense =
+    agreementTotal +
+    stampRegTotal +
+    maintenance;
+
+    html += `
+    <div class="card">
+    <h2>Expense Till Possession</h2>
+
+    <table>
+
+    <tr>
+    <th>Description</th>
+    <th>Amount</th>
+    </tr>
+
+    <tr>
+    <td>Total Agreement With GST</td>
+    <td>${formatINR(agreementTotal)}</td>
+    </tr>
+
+    <tr>
+    <td>Total Stamp + Registration</td>
+    <td>${formatINR(stampRegTotal)}</td>
+    </tr>
+
+    <tr>
+    <td>Advance Maintenance</td>
+    <td>${formatINR(maintenance)}</td>
+    </tr>
+
+    <tr class="summary">
+    <td>Total Expense Till Possession</td>
+    <td>${formatINR(totalExpense)}</td>
+    </tr>
+
+    </table>
+    </div>
+    `;
+
+    document.getElementById("results").innerHTML = html;
+}
+
+</script>
+
+</body>
+</html>
